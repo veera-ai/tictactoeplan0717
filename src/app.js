@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const path = require('path');
 const indexRoutes = require('./routes');
 const apiRoutes = require('./routes/api');
 
@@ -28,9 +29,19 @@ function createApp() {
   // Parse JSON bodies (safe default for future expansion).
   app.use(express.json());
 
-  // Routes (structured for future expansion).
-  app.use('/', indexRoutes);
+  // Serve static UI assets.
+  // This enables /index.html, /app.js, etc.
+  const publicDir = path.join(__dirname, '..', 'public');
+  app.use(express.static(publicDir));
+
+  // API routes must remain stable and continue to work.
   app.use('/api', apiRoutes);
+
+  /**
+   * Root routes.
+   * We keep /health working, and update / to serve the new UI.
+   */
+  app.use('/', indexRoutes);
 
   // Fallback 404 handler.
   app.use((req, res) => {

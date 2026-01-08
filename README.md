@@ -22,7 +22,7 @@ The server listens on `process.env.PORT || 3001` and binds to `0.0.0.0` (contain
 ## Endpoints (existing)
 
 - `GET /`  
-  Returns a small HTML page (`Content-Type: text/html`) titled **"Tic-Tac-Toe Starter"** confirming the server is running.
+  Serves the Tic-Tac-Toe UI (static HTML/JS).
 
 - `GET /health`  
   Returns JSON (`Content-Type: application/json`) like:
@@ -30,6 +30,15 @@ The server listens on `process.env.PORT || 3001` and binds to `0.0.0.0` (contain
   ```json
   { "status": "ok", "port": 3001 }
   ```
+
+## Browser UI
+
+After starting the server, open:
+
+- http://localhost:3001/
+
+The page will automatically create a new game and render a 3x3 board. Click a cell to make a move.
+Use **New game** (or **Restart**) to start over.
 
 ## Tic-Tac-Toe API (`/api`)
 
