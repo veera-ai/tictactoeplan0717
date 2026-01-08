@@ -152,6 +152,13 @@ npm run format
 npm run format:check
 ```
 
+## Documentation
+
+Developer-facing docs live in:
+
+- [Product Requirements Document (PRD)](docs/PRD.md)
+- [Architecture Overview](docs/ARCHITECTURE.md)
+
 ## Preview
 
 The preview environment expects the service to bind on port `3001` by default, which this server does.
