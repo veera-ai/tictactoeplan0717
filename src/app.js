@@ -2,6 +2,7 @@
 
 const express = require('express');
 const indexRoutes = require('./routes');
+const apiRoutes = require('./routes/api');
 
 /**
  * PUBLIC_INTERFACE
@@ -29,6 +30,7 @@ function createApp() {
 
   // Routes (structured for future expansion).
   app.use('/', indexRoutes);
+  app.use('/api', apiRoutes);
 
   // Fallback 404 handler.
   app.use((req, res) => {
