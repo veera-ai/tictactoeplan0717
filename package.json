@@ -1,0 +1,16 @@
+{
+  "name": "tictactoeplan0717",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Minimal Express server so the preview can run on port 3001.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "4.21.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
