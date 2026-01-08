@@ -1,0 +1,23 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "es2022": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "commonjs"
+  },
+  "plugins": ["prettier", "import", "node"],
+  "extends": ["eslint:recommended", "plugin:import/recommended", "plugin:node/recommended", "prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "node/no-unsupported-features/es-syntax": "off",
+    "node/no-missing-require": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": true
+    }
+  }
+}
