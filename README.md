@@ -1,6 +1,6 @@
 # Project Repository
 
-This repository now includes a minimal HTTP server so the container preview can start successfully.
+This repository includes a minimal HTTP server so the container preview can start successfully.
 
 ## Run locally
 
@@ -9,9 +9,20 @@ npm install
 npm start
 ```
 
-The server binds to `PORT` (defaults to `3001`) on `0.0.0.0`.
+The server listens on `process.env.PORT || 3001` and binds to `0.0.0.0` (container/preview friendly).
 
 ## Endpoints
 
-- `GET /` -> basic JSON response
-- `GET /healthz` -> health check JSON response
+- `GET /`  
+  Returns a small HTML page (`Content-Type: text/html`) titled **"Tic-Tac-Toe Starter"** confirming the server is running.
+
+- `GET /health`  
+  Returns JSON (`Content-Type: application/json`) like:
+
+  ```json
+  { "status": "ok", "port": 3001 }
+  ```
+
+## Preview
+
+The preview environment expects the service to bind on port `3001` by default, which this server does.
