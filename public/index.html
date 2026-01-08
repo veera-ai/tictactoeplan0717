@@ -2,189 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <title>Tic-Tac-Toe</title>
-    <style>
-      :root {
-        --bg: #ffffff;
-        --fg: #111827;
-        --muted: #6b7280;
-        --border: #e5e7eb;
-        --btn: #111827;
-        --btnfg: #ffffff;
-        --cellbg: #f9fafb;
-        --cellhover: #f3f4f6;
-      }
-
-      body {
-        margin: 0;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        background: var(--bg);
-        color: var(--fg);
-      }
-
-      main {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 2rem 1rem 3rem;
-      }
-
-      header h1 {
-        margin: 0 0 0.25rem 0;
-        font-size: 1.75rem;
-        letter-spacing: -0.02em;
-      }
-
-      header p {
-        margin: 0;
-        color: var(--muted);
-      }
-
-      .panel {
-        margin-top: 1.25rem;
-        padding: 1rem;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: #fff;
-      }
-
-      .controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .controls-left {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        align-items: center;
-      }
-
-      button {
-        appearance: none;
-        border: 1px solid var(--btn);
-        background: var(--btn);
-        color: var(--btnfg);
-        border-radius: 10px;
-        padding: 0.6rem 0.85rem;
-        font-weight: 600;
-        cursor: pointer;
-      }
-
-      button.secondary {
-        border-color: var(--border);
-        background: #fff;
-        color: var(--fg);
-      }
-
-      button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-
-      .status {
-        margin-top: 0.75rem;
-        padding: 0.75rem;
-        border: 1px dashed var(--border);
-        border-radius: 10px;
-        color: var(--fg);
-        background: #fff;
-        min-height: 2.5rem;
-        display: flex;
-        align-items: center;
-      }
-
-      .meta {
-        margin-top: 0.5rem;
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-
-      .board-wrap {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-      }
-
-      .board {
-        display: grid;
-        grid-template-columns: repeat(3, 96px);
-        grid-template-rows: repeat(3, 96px);
-        gap: 10px;
-      }
-
-      .cell {
-        width: 96px;
-        height: 96px;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: var(--cellbg);
-        color: var(--fg); /* Ensure X/O are visible (global button rule sets white text). */
-        font-size: 2.5rem;
-        font-weight: 800;
-        line-height: 1;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        user-select: none;
-      }
-
-      .cell:hover {
-        background: var(--cellhover);
-      }
-
-      .cell:disabled {
-        cursor: not-allowed;
-        opacity: 0.9;
-      }
-
-      footer {
-        margin-top: 1.5rem;
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-
-      footer code {
-        background: #f3f4f6;
-        padding: 0.15rem 0.35rem;
-        border-radius: 6px;
-      }
-    </style>
+    <meta name="theme-color" content="#0b1220" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="/styles.css" />
   </head>
 
   <body>
-    <main>
-      <header>
-        <h1>Tic-Tac-Toe</h1>
-        <p>Simple UI backed by the existing Express API.</p>
-      </header>
-
-      <section class="panel" aria-label="Game panel">
-        <div class="controls">
-          <div class="controls-left">
-            <button id="newGameBtn" type="button">New game</button>
-            <button id="restartBtn" type="button" class="secondary">Restart</button>
+    <div class="bg">
+      <div class="shell">
+        <header class="topbar" aria-label="Header">
+          <div class="brand">
+            <div class="brand__mark" aria-hidden="true">
+              <span class="mark-x">X</span><span class="mark-o">O</span>
+            </div>
+            <div class="brand__text">
+              <h1 class="brand__title">Tic‑Tac‑Toe</h1>
+              <p class="brand__subtitle">Clean UI backed by the existing Express API.</p>
+            </div>
           </div>
-          <div class="meta">
-            Game ID: <code id="gameId">—</code>
+
+          <div class="meta-card" aria-label="Game metadata">
+            <div class="meta-card__label">Game ID</div>
+            <code id="gameId" class="meta-card__value">—</code>
           </div>
-        </div>
+        </header>
 
-        <div id="status" class="status" role="status" aria-live="polite">Loading…</div>
+        <main class="card" aria-label="Game panel">
+          <div class="controls" aria-label="Controls">
+            <div class="controls__left">
+              <button id="newGameBtn" type="button" class="btn btn--primary">
+                <span class="btn__icon" aria-hidden="true">＋</span>
+                New game
+              </button>
 
-        <div class="board-wrap">
-          <div id="board" class="board" role="grid" aria-label="Tic-Tac-Toe board"></div>
-        </div>
-      </section>
+              <button id="restartBtn" type="button" class="btn btn--secondary">
+                <span class="btn__icon" aria-hidden="true">↻</span>
+                Restart
+              </button>
+            </div>
 
-      <footer>
-        API: <code>POST /api/games</code>, <code>GET /api/games/:id</code>, <code>POST /api/games/:id/moves</code>
-      </footer>
-    </main>
+            <div class="controls__right">
+              <div id="status" class="status" role="status" aria-live="polite">Loading…</div>
+            </div>
+          </div>
+
+          <section class="board-section" aria-label="Board section">
+            <div class="board-wrap">
+              <div id="board" class="board" role="grid" aria-label="Tic-Tac-Toe board"></div>
+            </div>
+
+            <p class="hint">
+              Tip: You can press <kbd>N</kbd> for a new game or <kbd>R</kbd> to restart.
+            </p>
+          </section>
+        </main>
+
+        <footer class="footer" aria-label="Footer">
+          <div class="footer__left">
+            <span class="footer__label">API</span>
+            <code>POST /api/games</code>
+            <code>GET /api/games/:id</code>
+            <code>POST /api/games/:id/moves</code>
+          </div>
+          <div class="footer__right">
+            <a class="footer__link" href="/health">/health</a>
+            <span class="footer__dot" aria-hidden="true">•</span>
+            <a class="footer__link" href="/openapi.json">openapi.json</a>
+          </div>
+        </footer>
+      </div>
+    </div>
 
     <script src="/app.js"></script>
   </body>

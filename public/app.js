@@ -59,10 +59,15 @@ function renderBoard(game) {
     btn.type = 'button';
     btn.className = 'cell';
     btn.setAttribute('role', 'gridcell');
+    btn.setAttribute('aria-label', `Row ${row + 1}, Column ${col + 1}`);
     btn.dataset.index = String(i);
     btn.textContent = cellValue || '';
 
     const cellOccupied = cellValue !== null;
+
+    if (cellValue === 'X') btn.classList.add('cell--x', 'cell--filled');
+    if (cellValue === 'O') btn.classList.add('cell--o', 'cell--filled');
+
     btn.disabled = disabled || cellOccupied;
 
     btn.addEventListener('click', async () => {
@@ -158,11 +163,35 @@ async function makeMove(index) {
     currentGameState = updated;
     setStatus(getStatusText(updated));
     renderBoard(updated);
+
+    // Small polish: when game ends, keep focus on board for easy restart/new game.
+    if (isGameOver(updated)) {
+      const boardEl = el('board');
+      if (boardEl) boardEl.focus?.();
+    }
   } catch (err) {
     // Re-render from server after error to keep UI consistent.
     setStatus(`Error: ${err.message}`);
     await renderFromServer();
   }
+}
+
+function registerKeyboardShortcuts() {
+  window.addEventListener('keydown', (e) => {
+    // Ignore when typing in any input-like element (none in current UI, but safe).
+    const tag = (e.target && e.target.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+    if (e.key === 'n' || e.key === 'N') {
+      e.preventDefault();
+      el('newGameBtn')?.click();
+    }
+
+    if (e.key === 'r' || e.key === 'R') {
+      e.preventDefault();
+      el('restartBtn')?.click();
+    }
+  });
 }
 
 // PUBLIC_INTERFACE
@@ -186,6 +215,8 @@ function init() {
       setStatus(`Error: ${err.message}`);
     }
   });
+
+  registerKeyboardShortcuts();
 
   // Disable restart until first game is created.
   restartBtn.disabled = true;
